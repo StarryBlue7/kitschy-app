@@ -3,3 +3,26 @@
 *::after {
   box-sizing: border-box;
 }
+
+/* #top-bar {
+  background-color: lightskyblue;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+} */
+
+#top-bar {
+  background-color: lightskyblue;
+}
+
+#logo-img {
+  object-fit: contain;
+}
+
+#logo {
+  font-family: 'Dancing Script';
+  color: rgb(0, 79, 224);
+  font-size: 450%;
+}
