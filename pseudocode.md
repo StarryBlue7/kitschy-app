@@ -17,7 +17,7 @@
 8. Create a <div> element with an id of "recipeCard" and a data attribute of "i" (where i is the index of the for loop)
 9. Create an <img> element with the placeholder src
 10. Create an <img> element over the top of it, set src attribute to the image URL provided by the recipe object
-11. Create a <button> element, give it an id of "cardBtn", put the text of "+ Add" and the classes necessary to move it to the top right
+11. Create a <button> element, give it an id of "addBtn", put the text of "+ Add", a data attribute of 'i' and the classes necessary to move it to the top right
 12. Create an <h3> or <p> element, set text to the title provided in the 'title' property
 13. Append all those elements inside the card and append the card to the page
 14. There should be up to 20 element rendered to the page
@@ -37,10 +37,18 @@
 
 ## For '+ Add' button
 
-
-
-## For the 'My Meals' add/remove items
-
-
+1. Add an event listener to the div containing all the recipe cards, that responds to a click on any element with the id of "addBtn"
+2. When clicked, execute a function that looks at the +Add button that was clicked, look at it's data attribute
+3. Find the recipe object with the same name as the addBtn's attribute
+4. Create a new <div> and set the text content to the title property in the recipe object
+5. Store the recipe object in local storage with a key equal to the title property in the recipe object
 
 ## 'Generate list' button
+
+1. Make an empty object that will be the grocery list
+2. When the generate list button is clicked
+3. Get all of the recipe objects for each div in My Meals
+4. For each recipe ingredient, look to see if a duplicate already exists in the grocery list object
+5. If no, then jsut add it to the object grocery list
+6. If yes, add the quantity properties together
+7. When all lists are added, return a full grocery list to the user
