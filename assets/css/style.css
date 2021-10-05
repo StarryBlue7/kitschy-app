@@ -4,15 +4,6 @@
   box-sizing: border-box;
 }
 
-/* #top-bar {
-  background-color: lightskyblue;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  height: 70px;
-} */
-
 #top-bar {
   background-color: lightskyblue;
 }
