@@ -19,7 +19,7 @@ $.ajax({
 
         for (var j = 0; j < ingredientsList.length; j++) {
 
-            var quantity = ingredients[j].quantity;
+            var quantity = ingredientsList[j].quantity;
             var typeFood = response.hits[i].recipe.ingredients[j].food;
 
         }
