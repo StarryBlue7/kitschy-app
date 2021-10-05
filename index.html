@@ -5,11 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="assets/css/reset.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css" 
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css" 
         integrity="sha512-IgmDkwzs96t4SrChW29No3NXBIBv8baW490zk5aXvhCD8vuZM3yUSkbyTBcXohkySecyzIrUwiF/qV0cuPcL3Q==" 
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css"> -->
+        crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css" integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" 
     integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,52 +19,30 @@
     <title>Kitschy || Your kitchen helper!</title>
 </head>
 
-<body class="has-navbar-fixed-top">
-    <header>
-        <nav id="top-bar" class="navbar is-fixed-top is-info" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <img id="logo-img" src="./assets/images/kitschy-logo.png" alt="Kitschy, your kitchen helper" width="112" height="28">
-                <h1 id="logo">Kitschy</h1>
-            </div>
-
-            <div class="navbar-item">
-                <form>
-                    <input placeholder="Recipe Search" type="text" />
-                    <button type="submit"><i class="fas fa-search"></i></button>
-                </form>
-            </div>
-
-            <div class="navbar-item navbar-end has-dropdown is-hoverable">
-                <a class="navbar-link"><i class="fas fa-bars"></i></a>
-        
-                <div class="navbar-dropdown is-right">
-                    <a class="navbar-item">Overview</a>
-                    <a class="navbar-item">Elements</a>
-                    <a class="navbar-item">Components</a>
-                    <hr class="navbar-divider">
-                    <div class="navbar-item">Version 0.9.3</div>
-                </div>
-            </div>
-          </nav>
-    </header>
-    
-    
-
-    <main>
-        <section id="my-meals">
-            <h2>My Meals</h2>
-            <button><i class="fas fa-plus-square"></i></button>
-        </section>
-
-        <section id="recipes">
-
-        </section>
-    </main>
-
-    
-
+<body>
+    <nav class="top-bar">
+        <header class="top-bar-left">
+            <img id="logo-img" src="./assets/images/kitschy-logo.png" alt="Kitschy, your kitchen helper" width="112" height="28">
+            <h1 id="logo">Kitschy</h1>
+        </header>
+        <div class="top-bar-right">
+            <ul class="menu">
+            <li><input type="search" placeholder="Search for recipies"></li>
+            <li><button type="button" class="button">Search</button></li>
+            </ul>
+        </div>
+    </nav>
+        <main class = "grid-x">
+            <aside class="cell medium-4" id="my-meals">
+                <h2>My Meals</h2>
+                <button class = "success button">Make grocery list</button>
+            </aside>
+            <section class = "cell medium-8" id="search-results">
+                Search for a food item or recipe!
+            </section>
+        </main>
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/js/foundation.min.js" integrity="sha256-pRF3zifJRA9jXGv++b06qwtSqX1byFQOLjqa2PTEb2o=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <script type="text/javascript" src="assets/js/script.js"></script>
 </body>
 </html>
