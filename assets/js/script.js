@@ -131,4 +131,13 @@ function addMeal(index) {
     let myMeals = [];
     myMeals.push(searchResults[index]);
     generateRecipeCards(myMeals, $('#my-meals'));
+    localStorage.setItem("myMeals", JSON.stringify(myMeals));
 };
+
+// Run on page load
+function init() {
+    let myMeals = JSON.parse(localStorage.getItem("myMeals"));
+    generateRecipeCards(myMeals, $('#my-meals'));
+};
+
+init();
