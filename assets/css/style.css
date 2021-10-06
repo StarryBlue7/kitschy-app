@@ -17,3 +17,7 @@
   color: rgb(0, 79, 224);
   font-size: 450%;
 }
+
+.hidden {
+  display: none;
+}

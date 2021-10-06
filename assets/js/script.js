@@ -72,8 +72,12 @@ function getRecipes(searchTerm) {
             searchResults.push(recipeObject);
         });
         
+        // Save search results to local storage
         localStorage.setItem("searchResults", searchResults);
         
+        // Populate search results section of page
+        const resultsHeader = $('<h2>').text('Showing results for: ' + searchTerm);
+        $('#search-results').append(resultsHeader);
         generateRecipeCards(searchResults, $('#search-results'));
     });
 }
@@ -108,15 +112,21 @@ function generateRecipeCards(recipesArray, appendLocation) {
     $.each(recipesArray, function(i, recipe) {
         const cardHeader = $('<h3>').text(recipe.label);
         const cardPhoto = $('<img>').attr('src', recipe.image).attr('alt', recipe.label);
-        const ingredientsList = $('<ul>').attr('class', 'ingredient-list');
+        const ingredientsList = $('<ul>').attr('class', 'ingredient-list hidden');
     
         $.each(recipe.ingredients, function(i, ingredient) {
             const ingredientItem = $('<li>').text(ingredient.weight + 'g ' + ingredient.food);
             ingredientsList.append(ingredientItem);
         });
     
-        let card = $('<div>').attr('data-index', recipe).attr('class', 'recipeCard');
+        let card = $('<div>').attr('data-index', recipe).attr('class', 'recipe-card');
         card.append(cardPhoto, cardHeader, ingredientsList);
         appendLocation.append(card);
     })
 }
+
+// Event listener for cards to show/hide ingredient lists
+$('.recipe-card').click(function(event) {
+    event.stopPropagation();
+    $(this).children('ul').toggleClass('hidden');
+})
