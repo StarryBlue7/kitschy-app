@@ -103,3 +103,20 @@ function parseIngredients(ingredients) {
     return ingredientsArray;
 }
 
+// Generate recipe cards from recipes array
+function generateRecipeCards(recipesArray, appendLocation) {
+    $.each(recipesArray, function(i, recipe) {
+        const cardHeader = $('<h3>').text(recipe.label);
+        const cardPhoto = $('<img>').attr('src', recipe.image).attr('alt', recipe.label);
+        const ingredientsList = $('<ul>').attr('class', 'ingredient-list');
+    
+        $.each(recipe.ingredients, function(i, ingredient) {
+            const ingredientItem = $('<li>').text(ingredient.weight + 'g ' + ingredient.food);
+            ingredientsList.append(ingredientItem);
+        });
+    
+        let card = $('<div>').attr('data-index', recipe).attr('class', 'recipeCard');
+        card.append(cardPhoto, cardHeader, ingredientsList);
+        appendLocation.append(card);
+    })
+}
