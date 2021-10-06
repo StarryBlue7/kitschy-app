@@ -92,7 +92,7 @@ function parseIngredients(ingredients) {
 // Generate recipe cards from recipes array
 function generateRecipeCards(recipesArray, appendLocation) {
     $.each(recipesArray, function(i, recipe) {
-        const addToMeals = $('<button>').attr('class', 'add-meal').attr('data-index', i).html('<i class="fas fa-plus-square"></i>');
+        const addToMeals = $('<button>').attr('class', 'add-meal').attr('data-index', i).html('<i class="fas fa-plus-square"></i>Add');
         const cardHeader = $('<h3>').text(recipe.label);
         const cardPhoto = $('<img>').attr('src', recipe.image).attr('alt', recipe.label);
         const yield = $('<p>').text('(Yields ' + recipe.yield + ' servings)');
@@ -114,5 +114,6 @@ function generateRecipeCards(recipesArray, appendLocation) {
 $('#search-results').on('click', '.recipe-card', function(event) {
     event.stopPropagation();
     $(this).children('ul').toggleClass('hidden');
+    $(this).toggleClass('card-clicked');
     $(this).siblings().children('ul').addClass('hidden');
 });
