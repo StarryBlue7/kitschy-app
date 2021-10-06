@@ -36,10 +36,40 @@ aside h2 {
 }
 
 aside {
+  position: fixed;
   padding: 10px 0px 0px 20px;
   background-color: rgb(255, 239, 210);
-  height: 80vh;
+  height: 100%;
+  margin-top: 125px;
 }
 main section{
   padding: 10px;
+  margin-left: 25%;
+  margin-top: 125px;
+}
+
+nav {
+  position: fixed;
+  width: 100%;
+}
+
+
+@media only screen and (max-width: 1022px){
+  main section{
+    margin-left: 35%;
+  }
+}
+
+@media only screen and (max-width: 638px){
+  aside {
+    position: static;
+    margin-top: 164px;
+    height: fit-content;
+  }
+
+  main section{
+    padding: 10px;
+    margin-left:0;
+    margin-top: 0;
+  }
 }
