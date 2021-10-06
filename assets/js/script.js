@@ -50,7 +50,7 @@ function getRecipes(searchTerm) {
         });
         
         // Save search results to local storage
-        localStorage.setItem("searchResults", searchResults);
+        localStorage.setItem("searchResults", JSON.stringify(searchResults));
         console.log(searchResults);
         
         // Populate search results section of page
@@ -121,7 +121,12 @@ $('#search-results').on('click', '.recipe-card', function(event) {
 // Event listener to add meals to my meals
 $('#search-results').on('click', '.add-meal', function(event) {
     event.stopPropagation();
-    addMeal();
+    let index = $(this).attr('data-index');
+    addMeal(index);
 });
 
-//
+// Add meals to my meals
+function addMeal(index) {
+    let searchResults = JSON.parse(localStorage.getItem("searchResults"));
+
+}
