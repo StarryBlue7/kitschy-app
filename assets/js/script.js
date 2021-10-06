@@ -13,8 +13,8 @@ $(document).ready(function() {
 
 
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-analytics.js";
+// import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
+// import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-analytics.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -31,8 +31,8 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+// const app = initializeApp(firebaseConfig);
+// const analytics = getAnalytics(app);
       
 
 
@@ -40,35 +40,95 @@ const analytics = getAnalytics(app);
 
 
 
+getRecipes("chicken parmesan");
+// var foodSearch = "https://api.edamam.com/api/recipes/v2?type=public&q=chicken%20parmesan&app_id=2c66eee1&app_key=102fe174b45e718bfc7022537a02504e";
+// var quantity = [];
 
-var foodSearch = "https://api.edamam.com/api/recipes/v2?type=public&q=chicken%20parmesan&app_id=2c66eee1&app_key=102fe174b45e718bfc7022537a02504e";
-var quantity = [];
-
-
-$.ajax({
-    url: foodSearch,
-    method: 'GET', 
-}).then(function (response) {
+function getRecipes(searchTerm) {
+    $.ajax({
+        url: 'https://api.edamam.com/api/recipes/v2?type=public' + 
+            '&q=' + searchTerm +
+            '&app_id=' + '2c66eee1' + 
+            '&app_key=' + '102fe174b45e718bfc7022537a02504e',
+        method: 'GET', 
+    }).then(function (response) {
     
-    for (var i = 0; i < 5; i++) { 
+    // for (var i = 0; i < 5; i++) { 
         console.log(response)
-        // console.log(response.hits[i].recipe.ingredients[i].quantity);
-        // console.log(response.hits[i].recipe.ingredients[i].food);
+    //     // console.log(response.hits[i].recipe.ingredients[i].quantity);
+    //     // console.log(response.hits[i].recipe.ingredients[i].food);
         
+    //     var ingredientsList = response.hits[i].recipe.ingredients;
+
+    //     for (var j = 0; j < ingredientsList.length; j++) {
+    //         var quantity = ingredientsList[j].quantity;
+    //         var typeFood = response.hits[i].recipe.ingredients[j].food;
+    //     }
+    //     console.log(`This recipe requires ${quantity} ${typeFood}.`)
+    // }   
+        const results = response.hits
+        let searchResults = [];
+        $.each(results, function(i, recipe) {
+            const recipeObject = generateRecipeObject(recipe);
+            searchResults.push(recipeObject);
+        });
         
-        var ingredientsList = response.hits[i].recipe.ingredients;
+        // Save search results to local storage
+        localStorage.setItem("searchResults", searchResults);
+        
+        // Populate search results section of page
+        const resultsHeader = $('<h2>').text('Showing results for: ' + searchTerm);
+        $('#search-results').append(resultsHeader);
+        generateRecipeCards(searchResults, $('#search-results'));
+    });
+}
 
-        for (var j = 0; j < ingredientsList.length; j++) {
+// Generate recipe object
+function generateRecipeObject(recipe) {
+    const recipeObject = {
+        label: recipe.recipe.label,
+        image: recipe.recipe.image,
+        ingredients: parseIngredients(recipe.recipe.ingredients)
+    }
+    return recipeObject;
+}
 
-            var quantity = ingredientsList[j].quantity;
-            var typeFood = response.hits[i].recipe.ingredients[j].food;
-
+// Create array of ingredient objects
+function parseIngredients(ingredients) {
+    let ingredientsArray = [];
+    $.each(ingredients, function(i, ingredient) {
+        const ingredientObject = {
+            food: ingredient.food,
+            quantity: ingredient.quantity,
+            weight: ingredient.weight,
+            text: ingredient.text
         }
+        ingredientsArray.push(ingredientObject);
+    });
+    return ingredientsArray;
+}
 
-       
-        
-        console.log(`This recipe requires ${quantity} ${typeFood}.`)
+// Generate recipe cards from recipes array
+function generateRecipeCards(recipesArray, appendLocation) {
+    $.each(recipesArray, function(i, recipe) {
+        const cardHeader = $('<h3>').text(recipe.label);
+        const cardPhoto = $('<img>').attr('src', recipe.image).attr('alt', recipe.label);
+        const ingredientsList = $('<ul>').attr('class', 'ingredient-list hidden');
+    
+        $.each(recipe.ingredients, function(i, ingredient) {
+            const ingredientItem = $('<li>').text(ingredient.text);
+            ingredientsList.append(ingredientItem);
+        });
+    
+        let card = $('<div>').attr('data-index', recipe).attr('class', 'recipe-card');
+        card.append(cardPhoto, cardHeader, ingredientsList);
+        appendLocation.append(card);
+    })
+}
 
-    }   
-
-});
+// Event listener for cards to show/hide ingredient lists
+$('#search-results').on('click', '.recipe-card', function(event) {
+    event.stopPropagation();
+    $(this).children('ul').toggleClass('hidden');
+    $(this).siblings().children('ul').addClass('hidden');
+})
