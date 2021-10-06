@@ -1,14 +1,3 @@
-$(document).ready(function() {
-
-    // Check for click events on the navbar burger icon
-    $(".navbar-burger").click(function() {
-  
-        // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-        $(".navbar-burger").toggleClass("is-active");
-        $(".navbar-menu").toggleClass("is-active");
-  
-    });
-  });
 // Play around with edamam search api 
 
 
@@ -20,6 +9,7 @@ $(document).ready(function() {
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
 const firebaseConfig = {
     apiKey: "AIzaSyAVR1qX2b32YafFZ9VcHYOYS6XCF2CMQwc",
     authDomain: "kitschy-app.firebaseapp.com",
@@ -34,15 +24,12 @@ const firebaseConfig = {
 // const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
       
-
-
-
-
-
-
-getRecipes("chicken parmesan");
-// var foodSearch = "https://api.edamam.com/api/recipes/v2?type=public&q=chicken%20parmesan&app_id=2c66eee1&app_key=102fe174b45e718bfc7022537a02504e";
-// var quantity = [];
+// Search by search term in input
+$('.menu').on('submit', function(event) {
+    event.preventDefault();
+    const searchTerm = $(this).children('input').val();
+    getRecipes(searchTerm);
+});
 
 function getRecipes(searchTerm) {
     $.ajax({
@@ -52,20 +39,9 @@ function getRecipes(searchTerm) {
             '&app_key=' + '102fe174b45e718bfc7022537a02504e',
         method: 'GET', 
     }).then(function (response) {
-    
-    // for (var i = 0; i < 5; i++) { 
-        console.log(response)
-    //     // console.log(response.hits[i].recipe.ingredients[i].quantity);
-    //     // console.log(response.hits[i].recipe.ingredients[i].food);
-        
-    //     var ingredientsList = response.hits[i].recipe.ingredients;
 
-    //     for (var j = 0; j < ingredientsList.length; j++) {
-    //         var quantity = ingredientsList[j].quantity;
-    //         var typeFood = response.hits[i].recipe.ingredients[j].food;
-    //     }
-    //     console.log(`This recipe requires ${quantity} ${typeFood}.`)
-    // }   
+        console.log(response)
+  
         const results = response.hits
         let searchResults = [];
         $.each(results, function(i, recipe) {
@@ -75,9 +51,11 @@ function getRecipes(searchTerm) {
         
         // Save search results to local storage
         localStorage.setItem("searchResults", searchResults);
+        console.log(searchResults);
         
         // Populate search results section of page
         const resultsHeader = $('<h2>').text('Showing results for: ' + searchTerm);
+        $('#search-results').html('');
         $('#search-results').append(resultsHeader);
         generateRecipeCards(searchResults, $('#search-results'));
     });
@@ -88,7 +66,9 @@ function generateRecipeObject(recipe) {
     const recipeObject = {
         label: recipe.recipe.label,
         image: recipe.recipe.image,
-        ingredients: parseIngredients(recipe.recipe.ingredients)
+        yield: recipe.recipe.yield,
+        ingredients: parseIngredients(recipe.recipe.ingredients),
+        url: recipe.recipe.url
     }
     return recipeObject;
 }
@@ -111,19 +91,22 @@ function parseIngredients(ingredients) {
 // Generate recipe cards from recipes array
 function generateRecipeCards(recipesArray, appendLocation) {
     $.each(recipesArray, function(i, recipe) {
+        const addToMeals = $('<button>').attr('class', 'add-meal').attr('data-index', i).html('<i class="fas fa-plus-square"></i>');
         const cardHeader = $('<h3>').text(recipe.label);
         const cardPhoto = $('<img>').attr('src', recipe.image).attr('alt', recipe.label);
+        const yield = $('<p>').text('(' + recipe.yield + ')');
         const ingredientsList = $('<ul>').attr('class', 'ingredient-list hidden');
+        const fullLink = $('<a>').attr('href', recipe.url).attr('target', '_blank').html('See Instructions <i class="fas fa-external-link-alt"></i>');
     
         $.each(recipe.ingredients, function(i, ingredient) {
             const ingredientItem = $('<li>').text(ingredient.text);
             ingredientsList.append(ingredientItem);
         });
     
-        let card = $('<div>').attr('data-index', recipe).attr('class', 'recipe-card');
-        card.append(cardPhoto, cardHeader, ingredientsList);
+        let card = $('<div>').attr('data-index', i).attr('class', 'recipe-card');
+        card.append(addToMeals, cardPhoto, cardHeader, yield, ingredientsList, fullLink);
         appendLocation.append(card);
-    })
+    });
 }
 
 // Event listener for cards to show/hide ingredient lists
