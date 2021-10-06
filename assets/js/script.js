@@ -128,5 +128,7 @@ $('#search-results').on('click', '.add-meal', function(event) {
 // Add meals to my meals
 function addMeal(index) {
     let searchResults = JSON.parse(localStorage.getItem("searchResults"));
-
-}
+    let myMeals = [];
+    myMeals.push(searchResults[index]);
+    generateRecipeCards(myMeals, $('#my-meals'));
+};
