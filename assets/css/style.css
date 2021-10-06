@@ -46,6 +46,13 @@ main section{
   padding: 10px;
   margin-left: 25%;
   margin-top: 125px;
+  display: flex;
+  flex-direction: inline;
+  flex-wrap: wrap;
+}
+
+main {
+  flex-direction: inline;
 }
 
 nav {
@@ -53,6 +60,16 @@ nav {
   width: 100%;
 }
 
+section h2 {
+  width: 100%;
+}
+
+.recipe-card {
+  border: 3px solid black;
+}
+.recipe-card h3 {
+  font-size: 2em;
+}
 
 @media only screen and (max-width: 1022px){
   main section{
