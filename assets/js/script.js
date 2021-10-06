@@ -117,3 +117,11 @@ $('#search-results').on('click', '.recipe-card', function(event) {
     $(this).toggleClass('card-clicked');
     $(this).siblings().children('ul').addClass('hidden');
 });
+
+// Event listener to add meals to my meals
+$('#search-results').on('click', '.add-meal', function(event) {
+    event.stopPropagation();
+    addMeal();
+});
+
+//
