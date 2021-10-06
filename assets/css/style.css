@@ -21,12 +21,11 @@
   font-family: 'Dancing Script';
   color: rgb(0, 79, 224);
   font-size: 450%;
-
+  display: inline;
 }
 
 .hidden {
   display: none;
-  /* display: inline; */
 }
 .top-bar-right {
   margin-right: 30px;
