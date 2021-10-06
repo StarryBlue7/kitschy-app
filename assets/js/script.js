@@ -13,8 +13,8 @@ $(document).ready(function() {
 
 
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-analytics.js";
+// import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
+// import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-analytics.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -31,8 +31,8 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+// const app = initializeApp(firebaseConfig);
+// const analytics = getAnalytics(app);
       
 
 
@@ -54,7 +54,7 @@ function getRecipes(searchTerm) {
     }).then(function (response) {
     
     // for (var i = 0; i < 5; i++) { 
-    //     console.log(response)
+        console.log(response)
     //     // console.log(response.hits[i].recipe.ingredients[i].quantity);
     //     // console.log(response.hits[i].recipe.ingredients[i].food);
         
@@ -66,8 +66,9 @@ function getRecipes(searchTerm) {
     //     }
     //     console.log(`This recipe requires ${quantity} ${typeFood}.`)
     // }   
+        const results = response.hits
         let searchResults = [];
-        $.each(response, function(i, recipe) {
+        $.each(results, function(i, recipe) {
             const recipeObject = generateRecipeObject(recipe);
             searchResults.push(recipeObject);
         });
@@ -85,9 +86,9 @@ function getRecipes(searchTerm) {
 // Generate recipe object
 function generateRecipeObject(recipe) {
     const recipeObject = {
-        label: recipe.label,
-        image: recipe.image,
-        ingredients: parseIngredients(recipe.ingredients)
+        label: recipe.recipe.label,
+        image: recipe.recipe.image,
+        ingredients: parseIngredients(recipe.recipe.ingredients)
     }
     return recipeObject;
 }
@@ -115,7 +116,7 @@ function generateRecipeCards(recipesArray, appendLocation) {
         const ingredientsList = $('<ul>').attr('class', 'ingredient-list hidden');
     
         $.each(recipe.ingredients, function(i, ingredient) {
-            const ingredientItem = $('<li>').text(ingredient.weight + 'g ' + ingredient.food);
+            const ingredientItem = $('<li>').text(ingredient.text);
             ingredientsList.append(ingredientItem);
         });
     
@@ -126,7 +127,8 @@ function generateRecipeCards(recipesArray, appendLocation) {
 }
 
 // Event listener for cards to show/hide ingredient lists
-$('.recipe-card').click(function(event) {
+$('#search-results').on('click', '.recipe-card', function(event) {
     event.stopPropagation();
     $(this).children('ul').toggleClass('hidden');
+    $(this).siblings().children('ul').addClass('hidden');
 })
