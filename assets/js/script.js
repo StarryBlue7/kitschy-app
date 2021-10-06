@@ -44,8 +44,8 @@ function getRecipes(searchTerm) {
   
         const results = response.hits
         let searchResults = [];
-        $.each(results, function(i, recipe) {
-            const recipeObject = generateRecipeObject(recipe);
+        $.each(results, function(i, result) {
+            const recipeObject = generateRecipeObject(result);
             searchResults.push(recipeObject);
         });
         
@@ -62,13 +62,13 @@ function getRecipes(searchTerm) {
 }
 
 // Generate recipe object
-function generateRecipeObject(recipe) {
+function generateRecipeObject(result) {
     const recipeObject = {
-        label: recipe.recipe.label,
-        image: recipe.recipe.image,
-        yield: recipe.recipe.yield,
-        ingredients: parseIngredients(recipe.recipe.ingredients),
-        url: recipe.recipe.url
+        label: result.recipe.label,
+        image: result.recipe.image,
+        yield: result.recipe.yield,
+        ingredients: parseIngredients(result.recipe.ingredients),
+        url: result.recipe.url
     }
     return recipeObject;
 }
@@ -80,6 +80,7 @@ function parseIngredients(ingredients) {
         const ingredientObject = {
             food: ingredient.food,
             quantity: ingredient.quantity,
+            measure: ingredient.measure,
             weight: ingredient.weight,
             text: ingredient.text
         }
@@ -94,7 +95,7 @@ function generateRecipeCards(recipesArray, appendLocation) {
         const addToMeals = $('<button>').attr('class', 'add-meal').attr('data-index', i).html('<i class="fas fa-plus-square"></i>');
         const cardHeader = $('<h3>').text(recipe.label);
         const cardPhoto = $('<img>').attr('src', recipe.image).attr('alt', recipe.label);
-        const yield = $('<p>').text('(' + recipe.yield + ')');
+        const yield = $('<p>').text('(Yields ' + recipe.yield + ' servings)');
         const ingredientsList = $('<ul>').attr('class', 'ingredient-list hidden');
         const fullLink = $('<a>').attr('href', recipe.url).attr('target', '_blank').html('See Instructions <i class="fas fa-external-link-alt"></i>');
     
@@ -114,4 +115,4 @@ $('#search-results').on('click', '.recipe-card', function(event) {
     event.stopPropagation();
     $(this).children('ul').toggleClass('hidden');
     $(this).siblings().children('ul').addClass('hidden');
-})
+});
