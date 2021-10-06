@@ -4,12 +4,17 @@
   box-sizing: border-box;
 }
 
-#top-bar {
+.top-bar {
+  background-color: lightskyblue;
+  padding: 0;
+}
+.top-bar ul {
   background-color: lightskyblue;
 }
 
 #logo-img {
   object-fit: contain;
+  margin-left: 20px;
 }
 
 #logo {
@@ -20,4 +25,21 @@
 
 .hidden {
   display: none;
+  display: inline;
+}
+.top-bar-right {
+  margin-right: 30px;
+}
+
+aside h2 {
+  font-size: 2em;
+}
+
+aside {
+  padding: 10px 0px 0px 20px;
+  background-color: rgb(255, 239, 210);
+  height: 80vh;
+}
+main section{
+  padding: 10px;
 }
