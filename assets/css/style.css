@@ -42,17 +42,66 @@ aside {
   height: 100%;
   margin-top: 125px;
 }
-main section{
+main > section{
   padding: 10px;
   margin-left: 25%;
   margin-top: 125px;
+  display: flex;
+  flex-direction: inline;
+  flex-wrap: wrap;
+}
+
+main {
+  flex-direction: inline;
 }
 
 nav {
+  z-index: 1;
   position: fixed;
   width: 100%;
 }
 
+section > h2 {
+  width: 100%;
+}
+
+.recipe-card {
+  border: 3px solid rgb(110, 110, 110);
+  width: 250px;
+  border-radius: 4%;
+  padding: 5px;
+  margin: 10px;
+}
+
+.recipe-card > img {
+  border-radius: 4%;
+}
+
+.card-clicked{
+  width: 500px;
+}
+.card-clicked > img {
+  width: 500px;
+}
+
+.recipe-card > h3 {
+  font-size: 1.5em;
+  padding: 10px;
+}
+.recipe-card > button {
+  padding: 5px;
+  font-size: 1.2em;
+  position: absolute;
+  margin-top: 10px;
+  margin-left: 10px;
+  border-radius: 10%;
+}
+.recipe-card > a{
+  margin-left: 20%;
+}
+.recipe-card > ul {
+  list-style-type: none;
+}
 
 @media only screen and (max-width: 1022px){
   main section{
