@@ -140,7 +140,7 @@ $('#my-meals').on('click', '.delBtn', function(event){
 // Event listener modal
 $('#my-meals').on("click", '.selected-meals', function(event){
     event.stopPropagation();
-    addModal();
+    //addModal();
 });
 
 
@@ -178,13 +178,13 @@ function makeMyMeals(){
     let myMeals = getMyMeals();
     for(let i = 0; i<myMeals.length; i++){
         let newEntry = $('<div>');
-        newEntry.attr('class', 'selected-meals');
+        newEntry.attr('class', 'selected-meals'); 
         newEntry.html(`<button 
                         class='button alert delBtn' 
                         data-index='${i}'>
                         <i class='fas fa-trash'></i>
                         </button> 
-                        <a href=$(#recipe-modal) rel=modal:open > ${myMeals[i].label}</a>`);
+                        + ${myMeals[i].label}`);  //<a href='#recipe-modal' rel='modal:open'></a>
         $('#my-meals').append(newEntry);
     }
 }
@@ -221,13 +221,13 @@ function displayGroceryList(groceryList) {
 }
 
 // Generates modal
-function addModal() {
-    let newModal = $('<div>');
-    newModal.addClass('modal');
-    newModal.attr('id', 'recipe-modal') 
-    newModal.html(`<h1>This is a test</h1>`);
-    $('#my-meals').append(newModal);
-}
+// function addModal() {
+//     let newModal = $('<div>');
+//     newModal.addClass('modal');
+//     newModal.attr('id', 'recipe-modal') 
+//     newModal.html(`<h1>This is a test</h1>`);
+//     $('#my-meals').append(newModal);
+// }
 
 // Run on page load
 function init() {
