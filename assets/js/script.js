@@ -137,6 +137,13 @@ $('#my-meals').on('click', '.delBtn', function(event){
     makeMyMeals();
 })
 
+// Event listener modal
+$('#my-meals').on("click", '.selected-meals', function(event){
+    event.stopPropagation();
+
+});
+
+
 // Event listener for the generate grocery list
 
 $('#grocery-list').on('click', function(event){
