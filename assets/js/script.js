@@ -126,6 +126,10 @@ $('#search-results').on('click', '.add-meal', function(event) {
     addMeal(index);
 });
 
+// Event listener for delete button
+
+
+
 // grabs my meals from local storage as an array of objects
 
 function getMyMeals(){
@@ -153,16 +157,18 @@ function makeMyMeals(){
     let myMeals = getMyMeals();
     for(let i = 0; i<myMeals.length; i++){
         let newEntry = $('<div>');
-        newEntry.text(myMeals[i].label);
         newEntry.addClass('selected-meals')
-        let newDelBtn = $('<button>');
-        newDelBtn.addClass('button alert')
-        newDelBtn.html('<i class="fas fa-trash"></i>')
-        newDelBtn.attr('id', 'delBtn')
+        // let newDelBtn = $('<button>');
+        // newDelBtn.addClass('button alert')
+        // newDelBtn.html('<i class="fas fa-trash"></i>')
+        // newDelBtn.attr('id', 'delBtn')
+        // newEntry.append(newDelBtn);
+        newEntry.html("<button class='button alert' id='delBtn'><i class='fas fa-trash'></i></button>" + myMeals[i].label);
         $('#my-meals').append(newEntry);
-        $('#my-meals').append(newDelBtn);
     }
 }
+
+
 
 //Event listener to make grocery list
 $('#grocery-list').on('click', function(event) {

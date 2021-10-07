@@ -108,7 +108,7 @@ section > h2 {
 
 .selected-meals{
   background-color: orange;
-  width: 80%;
+  width: 90%;
   margin-bottom: 10px;
   padding-left: 10px;
   font-size: 1.4em;
@@ -118,10 +118,9 @@ section > h2 {
 #delBtn{
   position: absolute;
   right: 0;
-  top: 0 auto;
   display: inline;
   margin-top: 5px;
-  font-size: 1em;
+  font-size: 0.5em;
 }
 
 @media only screen and (max-width: 1022px){
