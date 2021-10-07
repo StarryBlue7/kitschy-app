@@ -57,7 +57,7 @@ function getRecipes(searchTerm) {
         const resultsHeader = $('<h2>').text('Showing results for: ' + searchTerm);
         $('#search-results').html('');
         $('#search-results').append(resultsHeader);
-        generateRecipeCards(searchResults, $('#search-results'));
+        generateRecipeCards(searchResults, $('#search-results'), false);
     });
 }
 
@@ -90,9 +90,15 @@ function parseIngredients(ingredients) {
 }
 
 // Generate recipe cards from recipes array
-function generateRecipeCards(recipesArray, appendLocation) {
+function generateRecipeCards(recipesArray, appendLocation, isMax) {
     $.each(recipesArray, function(i, recipe) {
-        const addToMeals = $('<button>').attr('class', 'add-meal success button').attr('data-index', i).html('<i class="fas fa-plus-square"></i>Add');
+        let addToMeals;
+        if (!isMax) {
+            addToMeals = $('<button>').attr('class', 'add-meal success button').attr('data-index', i).html('<i class="fas fa-plus-square"></i>Add');
+        } else {
+            addToMeals = $('<em>');
+        }
+        
         const cardHeader = $('<h3>').text(recipe.label);
         const cardPhoto = $('<img>').attr('src', recipe.image).attr('alt', recipe.label);
         const yield = $('<p>').text('(Yields ' + recipe.yield + ' servings)');
@@ -137,6 +143,23 @@ $('#my-meals').on('click', '.delBtn', function(event){
     makeMyMeals();
 })
 
+// Event listener modal
+$('#my-meals').on("click", '.selected-meals', function(event){
+    event.stopPropagation();
+    $('#recipe-modal').empty();
+    $('#recipe-modal').modal();
+    let index =parseInt($(this).attr('data-index'));
+    console.log(typeof(index));
+    let allMeals = getMyMeals();
+    let singleMeal = allMeals.slice(index, index+1);
+    console.log(singleMeal);
+    generateRecipeCards(singleMeal, $("#recipe-modal"), true);
+    $('.ingredient-list').removeClass("hidden");
+    $('.recipe-card').addClass('.card-clicked');
+    $('.recipe-card').remove('.add-meal');
+});
+
+
 // Event listener for the generate grocery list
 
 $('#grocery-list').on('click', function(event){
@@ -165,20 +188,20 @@ function addMeal(index) {
     localStorage.setItem("myMeals", JSON.stringify(myMeals));
     makeMyMeals();
 };
-
 // generates the my meals list 
 function makeMyMeals(){
     $("#my-meals").html('');
     let myMeals = getMyMeals();
-    for(let i = 0; i<myMeals.length; i++){
+    for(let i = 0; i<myMeals.length; i++){ //we left off at trying to set data index 
         let newEntry = $('<div>');
-        newEntry.addClass('selected-meals')
+        newEntry.attr('class', 'selected-meals').attr('data-index', i); 
         newEntry.html(`<button 
                         class='button alert delBtn' 
                         data-index='${i}'>
                         <i class='fas fa-trash'></i>
-                        </button>` 
-                        + myMeals[i].label);
+                        </button> 
+                        ${myMeals[i].label}`); 
+        
         $('#my-meals').append(newEntry);
     }
 }
@@ -230,6 +253,15 @@ function displayGroceryList(groceryList) {
         compiledList.append(groceryItem);
     }
 }
+
+// Generates modal
+// function addModal() {
+//     let newModal = $('<div>');
+//     newModal.addClass('modal');
+//     newModal.attr('id', 'recipe-modal') 
+//     newModal.html(`<h1>This is a test</h1>`);
+//     $('#my-meals').append(newModal);
+// }
 
 // Run on page load
 function init() {
