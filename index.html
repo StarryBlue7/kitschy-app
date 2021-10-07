@@ -77,7 +77,6 @@
             messagingSenderId: "8659232932",
         };
 
-        let userId = "me";
         let groceryList = {
             food: "stuff",
             ingredients: "more stuff"
@@ -87,18 +86,29 @@
 
         var dataRef = firebase.database();
 
-        $('#cloud-save').on('click', function(event) {
-            dataRef.ref().push({
-                userId: userId,
-                groceryList: groceryList
-            });
+        $('#search-results').on('click', '#upload', function(event) {
+            event.stopPropagation();
+            const userId = prompt('Enter user ID:');
+            const uploadList = JSON.parse(localStorage.getItem('groceryList'));
+
+            dataRef.ref().users[userId].groceryList = uploadList;
+        })
+
+        $('#download').on('click', function(event) {
+            event.stopPropagation();
+            const userId = prompt('Enter user ID:');
+            const downloadedList = dataRef.ref().users[userId].groceryList;
+            
+            console.log(downloadedList);
+            localStorage.setItem('groceryList', JSON.stringify(downloadedList));
+            displayGroceryList(downloadedList);
         })
         
-        dataRef.ref().on("child_added", function(newList) {
-            console.log(newList.val().groceryList)
-        }, function(errorObject) {
-            console.log("Errors handled: " + errorObject.code);
-        });
+        // dataRef.ref().on("child_added", function(newList) {
+        //     console.log(newList.val().groceryList)
+        // }, function(errorObject) {
+        //     console.log("Errors handled: " + errorObject.code);
+        // });
         
     </script>
     
