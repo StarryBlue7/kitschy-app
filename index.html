@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
 
     <title>Kitschy || Your kitchen helper!</title>
 </head>
@@ -65,6 +66,49 @@
     </main>
     <!-- <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/js/foundation.min.js" integrity="sha256-pRF3zifJRA9jXGv++b06qwtSqX1byFQOLjqa2PTEb2o=" crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script type="module">
+        const config = {
+            apiKey: "AIzaSyDmqkJKGSXbAHktXA67i3HMBKonc0qyVlk",
+            authDomain: "kitschy-3abde.firebaseapp.com",
+            databaseURL: "https://kitschy-3abde-default-rtdb.firebaseio.com",
+            projectId: "kitschy-3abde",
+            storageBucket: "kitschy-3abde.appspot.com",
+            messagingSenderId: "8659232932",
+        };
+
+        firebase.initializeApp(config);
+
+        var dataRef = firebase.database();
+
+        $('#search-results').on('click', '#upload', function(event) {
+            event.stopPropagation();
+            const userId = prompt('Enter user ID:');
+            const uploadList = JSON.parse(localStorage.getItem('groceryList'));
+
+            dataRef.ref('users/' + userId + '/groceryList').set(uploadList);
+        });
+
+        $('#download').on('click', function(event) {
+            event.stopPropagation();
+            const userId = prompt('Enter user ID:');
+            
+            dataRef.ref('users/' + userId + '/groceryList').once('value').then((snapshot) => {
+                if (snapshot.exists()) {
+                    console.log(snapshot.val());
+                    localStorage.setItem('groceryList', JSON.stringify(snapshot.val()));
+                    displayGroceryList(snapshot.val());
+                } else {
+                    console.log("No data available");
+                }
+            }).catch((error) => {
+                console.error(error);
+                }
+            );
+        });        
+    </script>
+    
+    
     <script type="text/javascript" src="assets/js/script.js"></script>
 </body>
 </html>
