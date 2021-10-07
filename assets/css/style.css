@@ -123,6 +123,10 @@ section > h2 {
   font-size: 0.5em;
 }
 
+.custom-modal {
+  width: fit-content;
+}
+
 @media only screen and (max-width: 1022px){
   #search-results{
     margin-left: 35%;
