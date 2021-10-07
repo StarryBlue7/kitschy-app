@@ -167,7 +167,6 @@ function addMeal(index) {
 };
 
 // generates the my meals list 
-
 function makeMyMeals(){
     $("#my-meals").html('');
     let myMeals = getMyMeals();
@@ -184,6 +183,7 @@ function makeMyMeals(){
     }
 }
 
+// Combine ingredients from all selected meals into object object
 function makeGroceryList(recipeList) {
     let groceryList= {};
 
@@ -198,13 +198,20 @@ function makeGroceryList(recipeList) {
                     quantity: ingredient.quantity,
                     measure: ingredient.measure
                 }
-                console.log(groceryList);
             }
         });
     })
+    localStorage.setItem("groceryList", JSON.stringify(groceryList));
+    displayGroceryList(groceryList);
+    // const listItems = Object.keys(groceryList);
+    // console.log(listItems);
+}
 
+function displayGroceryList(groceryList) {
+    console.log(groceryList);
     const listItems = Object.keys(groceryList);
     console.log(listItems);
+    return;
 }
 
 // Run on page load
