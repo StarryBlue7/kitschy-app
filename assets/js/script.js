@@ -130,5 +130,26 @@ function addMeal(index) {
     let searchResults = JSON.parse(localStorage.getItem("searchResults"));
     let myMeals = [];
     myMeals.push(searchResults[index]);
+    $("#my-meals").html('');
+    generateRecipeCards(myMeals, $('#my-meals'));
+    localStorage.setItem("myMeals", JSON.stringify(myMeals));
+
+};
+
+//Event listener to make grocery list
+$('#grocery-list').on('click', function(event) {
+    event.stopPropagation();
+    makeGroceryList();
+})
+
+function makeGroceryList() {
+    return
+}
+
+// Run on page load
+function init() {
+    let myMeals = JSON.parse(localStorage.getItem("myMeals"));
     generateRecipeCards(myMeals, $('#my-meals'));
 };
+
+init();
