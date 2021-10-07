@@ -140,10 +140,12 @@ $('#my-meals').on('click', '.delBtn', function(event){
 // Event listener modal
 $('#my-meals').on("click", '.selected-meals', function(event){
     event.stopPropagation();
+    $('#recipe-modal').empty();
     $('#recipe-modal').modal();
-    let index = $(this).attr('data-index');
-    let singleMeal = getMyMeals();
-    singleMeal.splice(index, 1);
+    let index =parseInt($(this).attr('data-index'));
+    console.log(typeof(index));
+    let allMeals = getMyMeals();
+    let singleMeal = allMeals.slice(index, index+1);
     console.log(singleMeal);
     generateRecipeCards(singleMeal, $("#recipe-modal"));
 });
@@ -181,9 +183,9 @@ function addMeal(index) {
 function makeMyMeals(){
     $("#my-meals").html('');
     let myMeals = getMyMeals();
-    for(let i = 0; i<myMeals.length; i++){
+    for(let i = 0; i<myMeals.length; i++){ //we left off at trying to set data index 
         let newEntry = $('<div>');
-        newEntry.attr('class', 'selected-meals'); 
+        newEntry.attr('class', 'selected-meals').attr('data-index', i); 
         newEntry.html(`<button 
                         class='button alert delBtn' 
                         data-index='${i}'>
