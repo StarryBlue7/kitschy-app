@@ -3,7 +3,6 @@
 *::after {
   box-sizing: border-box;
 }
-
 .top-bar {
   background-color: lightskyblue;
   padding: 0;
@@ -64,6 +63,9 @@ nav {
 section > h2 {
   width: 100%;
 }
+.my-meals-header{
+  font-family: 'Dancing Script';
+}
 
 .recipe-card {
   border: 1px solid rgb(110, 110, 110);
@@ -111,7 +113,8 @@ section > h2 {
 .grocery-title{
   font-family: 'Dancing Script';
   font-size: 2em;
-  padding-left: 10px
+  padding-left: 10px;
+  display: inline;
 }
 .selected-meals{
   background-color: orange;
@@ -128,6 +131,15 @@ section > h2 {
   display: inline;
   margin-top: 5px;
   font-size: 0.5em;
+}
+.custom-copy{
+  display: inline;
+  border-radius: 6%;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  margin-left: 10px;
+  margin-top: 10px;
+  padding: 5px;
+  font-size: .5em;
 }
 
 @media only screen and (max-width: 1022px){
