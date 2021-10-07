@@ -112,8 +112,8 @@ section > h2 {
   margin-bottom: 10px;
   padding-left: 10px;
   font-size: 1.4em;
-  height: 45px;
-  overflow: hidden;
+  min-height: 45px;
+  height: fit-content;
 }
 .delBtn{
   position: absolute;
