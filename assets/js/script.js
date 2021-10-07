@@ -93,16 +93,19 @@ function parseIngredients(ingredients) {
 function generateRecipeCards(recipesArray, appendLocation, isMax) {
     $.each(recipesArray, function(i, recipe) {
         let addToMeals;
+        let ingredientsList;
         if (!isMax) {
             addToMeals = $('<button>').attr('class', 'add-meal success button').attr('data-index', i).html('<i class="fas fa-plus-square"></i>Add');
+            ingredientsList = $('<ul>').attr('class', 'ingredient-list hidden');
         } else {
             addToMeals = $('<em>');
+            ingredientsList = $('<ul>').attr('class', 'ingredient-list');
         }
         
         const cardHeader = $('<h3>').text(recipe.label);
         const cardPhoto = $('<img>').attr('src', recipe.image).attr('alt', recipe.label);
         const yield = $('<p>').text('(Yields ' + recipe.yield + ' servings)');
-        const ingredientsList = $('<ul>').attr('class', 'ingredient-list hidden');
+        
         const fullLink = $('<a>').attr('href', recipe.url).attr('target', '_blank').html('See Instructions <i class="fas fa-external-link-alt"></i>');
     
         $.each(recipe.ingredients, function(i, ingredient) {
@@ -154,9 +157,6 @@ $('#my-meals').on("click", '.selected-meals', function(event){
     let singleMeal = allMeals.slice(index, index+1);
     console.log(singleMeal);
     generateRecipeCards(singleMeal, $("#recipe-modal"), true);
-    $('.ingredient-list').removeClass("hidden");
-    $('.recipe-card').addClass('.card-clicked');
-    $('.recipe-card').remove('.add-meal');
 });
 
 
