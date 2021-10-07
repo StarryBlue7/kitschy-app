@@ -129,7 +129,7 @@ $('#search-results').on('click', '.add-meal', function(event) {
 // Event listener for delete buttons
 
 $('#my-meals').on('click', '#deleteBtn', function(event){
-
+    
 })
 
 // grabs my meals from local storage as an array of objects
