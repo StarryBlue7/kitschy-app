@@ -45,10 +45,17 @@
 
 ## 'Generate list' button
 
-1. Make an empty object that will be the grocery list
+1. Make an empty object that will be the groceryList
+1a. Make an array called groceryListItems
 2. When the generate list button is clicked
-3. Get all of the recipe objects for each div in My Meals
-4. For each recipe ingredient, look to see if a duplicate already exists in the grocery list object
-5. If no, then jsut add it to the object grocery list
-6. If yes, add the quantity properties together
-7. When all lists are added, return a full grocery list to the user
+3. Get all of the recipe objects from local storage in an array
+4. For each reciple object,
+5. Look at it's food property (which itself is an object)
+6. Does that key already exist?
+7. If yes, then add it's weight to the weight property of the food property object
+8. if no, then make a new key object called (whatever is in the food property of the recipe object)
+9. give it a weight property = to whatever is in the given object 
+10. give it a weightConvert property = to whatever is in the given object's weight property
+11. give it a quantity = to whatever is in the given object's quantity property value
+12. set it's measure = to .... etc...
+13. add the food property to the groceryList Items array

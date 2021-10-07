@@ -10,15 +10,15 @@
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
-const firebaseConfig = {
-    apiKey: "AIzaSyAVR1qX2b32YafFZ9VcHYOYS6XCF2CMQwc",
-    authDomain: "kitschy-app.firebaseapp.com",
-    projectId: "kitschy-app",
-    storageBucket: "kitschy-app.appspot.com",
-    messagingSenderId: "700644418613",
-    appId: "1:700644418613:web:d5e8843c2e1aa49b6b7d7c",
-    measurementId: "G-C5JM1SY5YH"
-};
+// const firebaseConfig = {
+//     apiKey: "AIzaSyAVR1qX2b32YafFZ9VcHYOYS6XCF2CMQwc",
+//     authDomain: "kitschy-app.firebaseapp.com",
+//     projectId: "kitschy-app",
+//     storageBucket: "kitschy-app.appspot.com",
+//     messagingSenderId: "700644418613",
+//     appId: "1:700644418613:web:d5e8843c2e1aa49b6b7d7c",
+//     measurementId: "G-C5JM1SY5YH"
+// };
 
 // Initialize Firebase
 // const app = initializeApp(firebaseConfig);
@@ -114,42 +114,124 @@ function generateRecipeCards(recipesArray, appendLocation) {
 $('#search-results').on('click', '.recipe-card', function(event) {
     event.stopPropagation();
     $(this).children('ul').toggleClass('hidden');
-    $(this).toggleClass('card-clicked');
     $(this).siblings().children('ul').addClass('hidden');
+    $(this).toggleClass('card-clicked');
+    $(this).siblings().removeClass('card-clicked');
 });
 
 // Event listener to add meals to my meals
 $('#search-results').on('click', '.add-meal', function(event) {
     event.stopPropagation();
-    let index = $(this).attr('data-index');
+    let index = $(this).attr('data-index');         //This shouldn't work with strings of number instead of number but... it... does?
     addMeal(index);
 });
+
+// Event listener for delete buttons
+
+$('#my-meals').on('click', '.delBtn', function(event){
+    event.stopPropagation();
+    let index = $(this).attr('data-index');
+    let myMeals = getMyMeals();
+    myMeals.splice(index, 1);
+    localStorage.setItem("myMeals", JSON.stringify(myMeals));
+    makeMyMeals();
+})
+
+// Event listener for the generate grocery list
+
+$('#grocery-list').on('click', function(event){
+    event.stopPropagation();
+    let myMeals = getMyMeals();
+    console.log(myMeals);
+    makeGroceryList(myMeals);
+})
+
+// grabs my meals from local storage as an array of objects
+
+function getMyMeals(){
+    let myMeals = JSON.parse(localStorage.getItem("myMeals"));
+    if(!myMeals){
+        myMeals = [];
+    }
+    return myMeals;
+}
 
 // Add meals to my meals
 function addMeal(index) {
     let searchResults = JSON.parse(localStorage.getItem("searchResults"));
-    let myMeals = [];
+    let myMeals = getMyMeals();
     myMeals.push(searchResults[index]);
-    $("#my-meals").html('');
-    generateRecipeCards(myMeals, $('#my-meals'));
+    // generateRecipeCards(myMeals, $('#my-meals'));
     localStorage.setItem("myMeals", JSON.stringify(myMeals));
-
+    makeMyMeals();
 };
 
-//Event listener to make grocery list
-$('#grocery-list').on('click', function(event) {
-    event.stopPropagation();
-    makeGroceryList();
-})
+// generates the my meals list 
+function makeMyMeals(){
+    $("#my-meals").html('');
+    let myMeals = getMyMeals();
+    for(let i = 0; i<myMeals.length; i++){
+        let newEntry = $('<div>');
+        newEntry.addClass('selected-meals')
+        newEntry.html(`<button 
+                        class='button alert delBtn' 
+                        data-index='${i}'>
+                        <i class='fas fa-trash'></i>
+                        </button>` 
+                        + myMeals[i].label);
+        $('#my-meals').append(newEntry);
+    }
+}
 
-function makeGroceryList() {
-    return
+// Combine ingredients from all selected meals into object object
+function makeGroceryList(recipeList) {
+    let groceryList= {};
+
+    $.each(recipeList, function(i, recipe) {
+        $.each(recipe.ingredients, function(i, ingredient) {
+            if (groceryList[ingredient.food]) {
+                groceryList[ingredient.food].weight += ingredient.weight; 
+            } else {
+                groceryList[ingredient.food] = {
+                    weight: ingredient.weight,
+                    weightConvert: ingredient.weight,
+                    quantity: ingredient.quantity,
+                    measure: ingredient.measure
+                }
+            }
+        });
+    })
+    localStorage.setItem("groceryList", JSON.stringify(groceryList));
+    displayGroceryList(groceryList);
+}
+
+function displayGroceryList(groceryList) {
+    console.log(groceryList);
+    const listItems = Object.keys(groceryList);
+    console.log(listItems);
+    $('#search-results').empty();
+    $('#search-results').append($('<h2>').text('Your Grocery List:').addClass('grocery-title'));
+    let compiledList = $('<ul>').attr('id', 'compiled-grocery-list');
+    $('#search-results').append(compiledList);
+    for(let i = 0; i<listItems.length; i++){
+        console.log(groceryList[listItems[i]])
+        let measure = groceryList[listItems[i]].measure
+        let calcQuantity = Math.ceil(groceryList[listItems[i]].quantity * (groceryList[listItems[i]].weight / groceryList[listItems[i]].weightConvert));
+        if(isNaN(calcQuantity) || calcQuantity === 0){
+            calcQuantity = "";
+        }
+        if(measure === null){
+            measure = "";
+        }
+        let groceryItem = $('<li>').html(calcQuantity + " " + measure + " " + listItems[i])
+        compiledList.append(groceryItem);
+    }
 }
 
 // Run on page load
 function init() {
     let myMeals = JSON.parse(localStorage.getItem("myMeals"));
-    generateRecipeCards(myMeals, $('#my-meals'));
+    makeMyMeals();
 };
 
 init();
