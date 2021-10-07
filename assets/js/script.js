@@ -122,14 +122,28 @@ $('#search-results').on('click', '.recipe-card', function(event) {
 // Event listener to add meals to my meals
 $('#search-results').on('click', '.add-meal', function(event) {
     event.stopPropagation();
-    let index = $(this).attr('data-index');
+    let index = $(this).attr('data-index');         //This shouldn't work with strings of number instead of number but... it... does?
     addMeal(index);
 });
 
 // Event listener for delete buttons
 
-$('#my-meals').on('click', '#deleteBtn', function(event){
+$('#my-meals').on('click', '.delBtn', function(event){
+    event.stopPropagation();
+    let index = $(this).attr('data-index');
+    let myMeals = getMyMeals();
+    myMeals.splice(index, 1);
+    localStorage.setItem("myMeals", JSON.stringify(myMeals));
+    makeMyMeals();
+})
 
+// Event listener for the generate grocery list
+
+$('#grocery-list').on('click', function(event){
+    event.stopPropagation();
+    let myMeals = getMyMeals();
+    console.log(myMeals);
+    makeGroceryList();
 })
 
 // grabs my meals from local storage as an array of objects
@@ -160,12 +174,12 @@ function makeMyMeals(){
     for(let i = 0; i<myMeals.length; i++){
         let newEntry = $('<div>');
         newEntry.addClass('selected-meals')
-        // let newDelBtn = $('<button>');
-        // newDelBtn.addClass('button alert')
-        // newDelBtn.html('<i class="fas fa-trash"></i>')
-        // newDelBtn.attr('id', 'delBtn')
-        // newEntry.append(newDelBtn);
-        newEntry.html("<button class='button alert' id='delBtn'><i class='fas fa-trash'></i></button>" + myMeals[i].label);
+        newEntry.html(`<button 
+                        class='button alert delBtn' 
+                        data-index='${i}'>
+                        <i class='fas fa-trash'></i>
+                        </button>` 
+                        + myMeals[i].label);
         $('#my-meals').append(newEntry);
     }
 }
@@ -173,10 +187,7 @@ function makeMyMeals(){
 
 
 //Event listener to make grocery list
-$('#grocery-list').on('click', function(event) {
-    event.stopPropagation();
-    makeGroceryList();
-})
+
 
 function makeGroceryList() {
     return
