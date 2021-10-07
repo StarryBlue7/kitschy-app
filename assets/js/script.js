@@ -203,15 +203,29 @@ function makeGroceryList(recipeList) {
     })
     localStorage.setItem("groceryList", JSON.stringify(groceryList));
     displayGroceryList(groceryList);
-    // const listItems = Object.keys(groceryList);
-    // console.log(listItems);
 }
 
 function displayGroceryList(groceryList) {
     console.log(groceryList);
     const listItems = Object.keys(groceryList);
     console.log(listItems);
-    return;
+    $('#search-results').empty();
+    $('#search-results').append($('<h2>').text('Your Grocery List:').addClass('grocery-title'));
+    let compiledList = $('<ul>').attr('id', 'compiled-grocery-list');
+    $('#search-results').append(compiledList);
+    for(let i = 0; i<listItems.length; i++){
+        console.log(groceryList[listItems[i]])
+        let measure = groceryList[listItems[i]].measure
+        let calcQuantity = Math.ceil(groceryList[listItems[i]].quantity * (groceryList[listItems[i]].weight / groceryList[listItems[i]].weightConvert));
+        if(isNaN(calcQuantity) || calcQuantity === 0){
+            calcQuantity = "";
+        }
+        if(measure === null){
+            measure = "";
+        }
+        let groceryItem = $('<li>').html(calcQuantity + " " + measure + " " + listItems[i])
+        compiledList.append(groceryItem);
+    }
 }
 
 // Run on page load
