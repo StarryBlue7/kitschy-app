@@ -140,7 +140,12 @@ $('#my-meals').on('click', '.delBtn', function(event){
 // Event listener modal
 $('#my-meals').on("click", '.selected-meals', function(event){
     event.stopPropagation();
-    //addModal();
+    $('#recipe-modal').modal();
+    let index = $(this).attr('data-index');
+    let singleMeal = getMyMeals();
+    singleMeal.splice(index, 1);
+    console.log(singleMeal);
+    generateRecipeCards(singleMeal, $("#recipe-modal"));
 });
 
 
@@ -184,7 +189,8 @@ function makeMyMeals(){
                         data-index='${i}'>
                         <i class='fas fa-trash'></i>
                         </button> 
-                        + ${myMeals[i].label}`);  //<a href='#recipe-modal' rel='modal:open'></a>
+                        ${myMeals[i].label}`); 
+        
         $('#my-meals').append(newEntry);
     }
 }
