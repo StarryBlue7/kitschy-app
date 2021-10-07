@@ -140,7 +140,7 @@ $('#my-meals').on('click', '.delBtn', function(event){
 // Event listener modal
 $('#my-meals').on("click", '.selected-meals', function(event){
     event.stopPropagation();
-
+    addModal();
 });
 
 
@@ -180,7 +180,7 @@ function makeMyMeals(){
     let myMeals = getMyMeals();
     for(let i = 0; i<myMeals.length; i++){
         let newEntry = $('<div>');
-        newEntry.addClass('selected-meals')
+        newEntry.attr('class', 'selected-meals').attr('data-open');
         newEntry.html(`<button 
                         class='button alert delBtn' 
                         data-index='${i}'>
@@ -217,6 +217,13 @@ function makeGroceryList(recipeList) {
     }
 
     return
+}
+
+// Generates modal
+function addModal() {
+    let newModal = $('<div>');
+    newModal.attr('class', 'reveal').attr('id', 'recipe-modal').attr('data-reveal');
+    
 }
 
 // Run on page load
