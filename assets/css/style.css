@@ -107,6 +107,9 @@ section > h2 {
 #my-meals{
   overflow-y:auto;
 }
+#grocery-list{
+  font-size: 1em;
+}
 #compiled-grocery-list{
   padding-left: 20px;
 }

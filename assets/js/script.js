@@ -148,7 +148,12 @@ $('#grocery-list').on('click', function(event){
 
 // Event listener for the copy button on the grocery list
 
-// $('#search-results').on('click', '#copy-btn')
+// $('#search-results').on('click', '#copy-btn', function(event){
+//     event.stopPropagation();
+//     document.getElementById('compiled-grocery-list').select();
+//     document.getElementById('compiled-grocery-list').setSelectionRange(0, 100000);
+//     $('#copy-btn').html('Copied! <i class="fas fa-clipboard-check"></i>')
+// })
 
 // grabs my meals from local storage as an array of objects
 
