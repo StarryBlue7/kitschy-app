@@ -66,7 +66,7 @@ section > h2 {
 }
 
 .recipe-card {
-  border: 3px solid rgb(110, 110, 110);
+  border: 1px solid rgb(110, 110, 110);
   width: 250px;
   border-radius: 4%;
   padding: 5px;
@@ -102,9 +102,29 @@ section > h2 {
 .recipe-card > ul {
   list-style-type: none;
 }
+#my-meals{
+  overflow-y:auto;
+}
+
+.selected-meals{
+  background-color: orange;
+  width: 90%;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  font-size: 1.4em;
+  height: 45px;
+  overflow: hidden;
+}
+#delBtn{
+  position: absolute;
+  right: 0;
+  display: inline;
+  margin-top: 5px;
+  font-size: 0.5em;
+}
 
 @media only screen and (max-width: 1022px){
-  main section{
+  #search-results{
     margin-left: 35%;
   }
 }
@@ -114,9 +134,10 @@ section > h2 {
     position: static;
     margin-top: 164px;
     height: fit-content;
+    width: 100%;
   }
 
-  main section{
+  #search-results{
     padding: 10px;
     margin-left:0;
     margin-top: 0;

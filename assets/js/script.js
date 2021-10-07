@@ -10,15 +10,15 @@
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
-const firebaseConfig = {
-    apiKey: "AIzaSyAVR1qX2b32YafFZ9VcHYOYS6XCF2CMQwc",
-    authDomain: "kitschy-app.firebaseapp.com",
-    projectId: "kitschy-app",
-    storageBucket: "kitschy-app.appspot.com",
-    messagingSenderId: "700644418613",
-    appId: "1:700644418613:web:d5e8843c2e1aa49b6b7d7c",
-    measurementId: "G-C5JM1SY5YH"
-};
+// const firebaseConfig = {
+//     apiKey: "AIzaSyAVR1qX2b32YafFZ9VcHYOYS6XCF2CMQwc",
+//     authDomain: "kitschy-app.firebaseapp.com",
+//     projectId: "kitschy-app",
+//     storageBucket: "kitschy-app.appspot.com",
+//     messagingSenderId: "700644418613",
+//     appId: "1:700644418613:web:d5e8843c2e1aa49b6b7d7c",
+//     measurementId: "G-C5JM1SY5YH"
+// };
 
 // Initialize Firebase
 // const app = initializeApp(firebaseConfig);
@@ -114,8 +114,9 @@ function generateRecipeCards(recipesArray, appendLocation) {
 $('#search-results').on('click', '.recipe-card', function(event) {
     event.stopPropagation();
     $(this).children('ul').toggleClass('hidden');
-    $(this).toggleClass('card-clicked');
     $(this).siblings().children('ul').addClass('hidden');
+    $(this).toggleClass('card-clicked');
+    $(this).siblings().removeClass('card-clicked');
 });
 
 // Event listener to add meals to my meals
@@ -125,16 +126,51 @@ $('#search-results').on('click', '.add-meal', function(event) {
     addMeal(index);
 });
 
+// Event listener for delete buttons
+
+$('#my-meals').on('click', '#deleteBtn', function(event){
+
+})
+
+// grabs my meals from local storage as an array of objects
+
+function getMyMeals(){
+    let myMeals = JSON.parse(localStorage.getItem("myMeals"));
+    if(!myMeals){
+        myMeals = [];
+    }
+    return myMeals;
+}
+
 // Add meals to my meals
 function addMeal(index) {
     let searchResults = JSON.parse(localStorage.getItem("searchResults"));
-    let myMeals = [];
+    let myMeals = getMyMeals();
     myMeals.push(searchResults[index]);
-    $("#my-meals").html('');
-    generateRecipeCards(myMeals, $('#my-meals'));
+    // generateRecipeCards(myMeals, $('#my-meals'));
     localStorage.setItem("myMeals", JSON.stringify(myMeals));
-
+    makeMyMeals();
 };
+
+// generates the my meals list 
+
+function makeMyMeals(){
+    $("#my-meals").html('');
+    let myMeals = getMyMeals();
+    for(let i = 0; i<myMeals.length; i++){
+        let newEntry = $('<div>');
+        newEntry.addClass('selected-meals')
+        // let newDelBtn = $('<button>');
+        // newDelBtn.addClass('button alert')
+        // newDelBtn.html('<i class="fas fa-trash"></i>')
+        // newDelBtn.attr('id', 'delBtn')
+        // newEntry.append(newDelBtn);
+        newEntry.html("<button class='button alert' id='delBtn'><i class='fas fa-trash'></i></button>" + myMeals[i].label);
+        $('#my-meals').append(newEntry);
+    }
+}
+
+
 
 //Event listener to make grocery list
 $('#grocery-list').on('click', function(event) {
@@ -149,7 +185,7 @@ function makeGroceryList() {
 // Run on page load
 function init() {
     let myMeals = JSON.parse(localStorage.getItem("myMeals"));
-    generateRecipeCards(myMeals, $('#my-meals'));
+    makeMyMeals();
 };
 
 init();
