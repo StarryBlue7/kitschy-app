@@ -105,7 +105,14 @@ section > h2 {
 #my-meals{
   overflow-y:auto;
 }
-
+#compiled-grocery-list{
+  padding-left: 20px;
+}
+.grocery-title{
+  font-family: 'Dancing Script';
+  font-size: 2em;
+  padding-left: 10px
+}
 .selected-meals{
   background-color: orange;
   width: 90%;
