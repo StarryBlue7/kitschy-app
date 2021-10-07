@@ -146,15 +146,6 @@ $('#grocery-list').on('click', function(event){
     makeGroceryList(myMeals);
 })
 
-// Event listener for the copy button on the grocery list
-
-// $('#search-results').on('click', '#copy-btn', function(event){
-//     event.stopPropagation();
-//     document.getElementById('compiled-grocery-list').select();
-//     document.getElementById('compiled-grocery-list').setSelectionRange(0, 100000);
-//     $('#copy-btn').html('Copied! <i class="fas fa-clipboard-check"></i>')
-// })
-
 // grabs my meals from local storage as an array of objects
 
 function getMyMeals(){
@@ -220,14 +211,9 @@ function displayGroceryList(groceryList) {
     console.log(listItems);
     $('#search-results').empty();
     $('#search-results').append($('<h2>').html(`Your Grocery List: 
-                                            <div>
-                                                <button class="button custom-copy" id="copy-btn">
-                                                Copy list <i class="fas fa-clipboard-list"></i>
-                                                </button>
                                                 <button class = "button custom-copy" id="upload">
                                                 Upload <i class="fas fa-cloud-upload-alt"></i>
-                                                </button>
-                                            </div>`).addClass('grocery-title'));
+                                                </button>`).addClass('grocery-title'));
     let compiledList = $('<ul>').attr('id', 'compiled-grocery-list');
     $('#search-results').append(compiledList);
     for(let i = 0; i<listItems.length; i++){
