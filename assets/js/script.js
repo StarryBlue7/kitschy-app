@@ -172,20 +172,19 @@ function addMeal(index) {
     localStorage.setItem("myMeals", JSON.stringify(myMeals));
     makeMyMeals();
 };
-
 // generates the my meals list 
 function makeMyMeals(){
     $("#my-meals").html('');
     let myMeals = getMyMeals();
     for(let i = 0; i<myMeals.length; i++){
         let newEntry = $('<div>');
-        newEntry.attr('class', 'selected-meals tiny').attr('data-open', 'recipe-modal');
+        newEntry.attr('class', 'selected-meals');
         newEntry.html(`<button 
                         class='button alert delBtn' 
                         data-index='${i}'>
                         <i class='fas fa-trash'></i>
-                        </button>` 
-                        + myMeals[i].label);
+                        </button> 
+                        <a href=$(#recipe-modal) rel=modal:open > ${myMeals[i].label}</a>`);
         $('#my-meals').append(newEntry);
     }
 }
@@ -224,7 +223,8 @@ function displayGroceryList(groceryList) {
 // Generates modal
 function addModal() {
     let newModal = $('<div>');
-    newModal.attr('class', 'reveal').attr('id', 'recipe-modal').attr('data-reveal', 'data-reveal');
+    newModal.addClass('modal');
+    newModal.attr('id', 'recipe-modal') 
     newModal.html(`<h1>This is a test</h1>`);
     $('#my-meals').append(newModal);
 }
