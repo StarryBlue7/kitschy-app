@@ -143,7 +143,7 @@ $('#grocery-list').on('click', function(event){
     event.stopPropagation();
     let myMeals = getMyMeals();
     console.log(myMeals);
-    makeGroceryList();
+    makeGroceryList(myMeals);
 })
 
 // grabs my meals from local storage as an array of objects
@@ -189,7 +189,26 @@ function makeMyMeals(){
 //Event listener to make grocery list
 
 
-function makeGroceryList() {
+function makeGroceryList(recipeList) {
+    let groceryList= {};
+    let groceryListItems = [];
+    for (let i = 0; i<recipeList.length; i++){
+        for(let j = 0; j<recipeList[i].ingredients.length; j++){
+            let ingredientObject = recipeList[i].ingredients[j];
+            if(groceryList[ingredientObject]){
+
+            }
+            else{
+            groceryListItems[ingredientObject].food;
+            let newGroceryItem = groceryList[ingredientObject].food;
+            newGroceryItem.weight = groceryList[ingredientObject].weight;
+            newGroceryItem.weightConvert = groceryList[ingredientObject].weight;
+            newGroceryItem.quantity = groceryList[ingredientObject].quantity;
+            newGroceryItem.measure = groceryList[ingredientObject].measure;
+            }
+        }
+    }
+
     return
 }
 
