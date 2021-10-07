@@ -184,32 +184,27 @@ function makeMyMeals(){
     }
 }
 
-
-
-//Event listener to make grocery list
-
-
 function makeGroceryList(recipeList) {
     let groceryList= {};
-    let groceryListItems = [];
-    for (let i = 0; i<recipeList.length; i++){
-        for(let j = 0; j<recipeList[i].ingredients.length; j++){
-            let ingredientObject = recipeList[i].ingredients[j];
-            if(groceryList[ingredientObject]){
 
+    $.each(recipeList, function(i, recipe) {
+        $.each(recipe.ingredients, function(i, ingredient) {
+            if (groceryList[ingredient.food]) {
+                groceryList[ingredient.food].weight += ingredient.weight; 
+            } else {
+                groceryList[ingredient.food] = {
+                    weight: ingredient.weight,
+                    weightConvert: ingredient.weight,
+                    quantity: ingredient.quantity,
+                    measure: ingredient.measure
+                }
+                console.log(groceryList);
             }
-            else{
-            groceryListItems[ingredientObject].food;
-            let newGroceryItem = groceryList[ingredientObject].food;
-            newGroceryItem.weight = groceryList[ingredientObject].weight;
-            newGroceryItem.weightConvert = groceryList[ingredientObject].weight;
-            newGroceryItem.quantity = groceryList[ingredientObject].quantity;
-            newGroceryItem.measure = groceryList[ingredientObject].measure;
-            }
-        }
-    }
+        });
+    })
 
-    return
+    const listItems = Object.keys(groceryList);
+    console.log(listItems);
 }
 
 // Run on page load
