@@ -17,14 +17,14 @@ function getRecipes(searchTerm) {
             '&app_key=' + '102fe174b45e718bfc7022537a02504e',
         method: 'GET', 
     }).then(function (response) {
-        console.log(response)
+        console.log(response);
   
         if (!response.hits.length === 0) {
             popUp('No results found. Try again!');
             return;
         }
 
-        const results = response.hits
+        const results = response.hits;
         let searchResults = [];
         $.each(results, function(i, result) {
             const recipeObject = generateRecipeObject(result);
@@ -215,6 +215,7 @@ function makeGroceryList(recipeList) {
     displayGroceryList(groceryList);
 }
 
+// Displays generated grocery list
 function displayGroceryList(groceryList) {
     const listItems = Object.keys(groceryList);
     $('#search-results').empty();

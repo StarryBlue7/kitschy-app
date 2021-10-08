@@ -62,6 +62,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 
     <script type="module">
+        // API configuration data, key
         const config = {
             apiKey: "AIzaSyDmqkJKGSXbAHktXA67i3HMBKonc0qyVlk",
             authDomain: "kitschy-3abde.firebaseapp.com",
@@ -71,19 +72,22 @@
             messagingSenderId: "8659232932",
         }
 
+        // Initializes Firebase
         firebase.initializeApp(config);
+        const dataRef = firebase.database();
 
-        var dataRef = firebase.database();
-
+        // Event listener to prompt user id modal for upload to Firebase
         $('#search-results').on('click', '#upload', function(event) {
             event.preventDefault();
             event.stopPropagation();
             $('#upload-prompt').modal();
         });
 
+        // Upload generated grocery list to Firebase database
         $('#upload-prompt').on('submit', function(event) {
             event.preventDefault();
             event.stopPropagation();
+            $.modal.close();
             const userId = $('#upload-input').val();
             const uploadList = JSON.parse(localStorage.getItem('groceryList'));
 
@@ -94,16 +98,18 @@
             ); 
         });
 
+        // Event listener to prompt user id modal for download from Firebase 
         $('#download').on('click', function(event) {
             event.preventDefault();
             event.stopPropagation();
-            // const userId = prompt('Enter user ID:');
             $('#download-prompt').modal();
         });        
 
+        // Download input user id's current grocery list, save and display
         $('#download-prompt').on('submit', function(event) {
             event.preventDefault();
             event.stopPropagation();
+            $.modal.close();
             const userId = $('#download-input').val();
 
             dataRef.ref('users/' + userId + '/groceryList').once('value').then((snapshot) => {
