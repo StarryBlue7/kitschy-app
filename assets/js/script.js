@@ -1,33 +1,11 @@
-// Play around with edamam search api 
-
-
-// Import the functions you need from the SDKs you need
-// import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
-// import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-analytics.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-
-// const firebaseConfig = {
-//     apiKey: "AIzaSyAVR1qX2b32YafFZ9VcHYOYS6XCF2CMQwc",
-//     authDomain: "kitschy-app.firebaseapp.com",
-//     projectId: "kitschy-app",
-//     storageBucket: "kitschy-app.appspot.com",
-//     messagingSenderId: "700644418613",
-//     appId: "1:700644418613:web:d5e8843c2e1aa49b6b7d7c",
-//     measurementId: "G-C5JM1SY5YH"
-// };
-
-// Initialize Firebase
-// const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
-      
 // Search by search term in input
 $('.menu').on('submit', function(event) {
     event.preventDefault();
     const searchTerm = $(this).children('input').val();
+    if (!searchTerm) {
+        popUp('No search term. Try again!');
+        return;
+    }
     getRecipes(searchTerm);
 });
 
@@ -39,9 +17,13 @@ function getRecipes(searchTerm) {
             '&app_key=' + '102fe174b45e718bfc7022537a02504e',
         method: 'GET', 
     }).then(function (response) {
-
         console.log(response)
   
+        if (!response.hits.length === 0) {
+            popUp('No results found. Try again!');
+            return;
+        }
+
         const results = response.hits
         let searchResults = [];
         $.each(results, function(i, result) {
@@ -59,6 +41,12 @@ function getRecipes(searchTerm) {
         $('#search-results').append(resultsHeader);
         generateRecipeCards(searchResults, $('#search-results'), false);
     });
+}
+
+// Modal pop-up
+function popUp(message) {
+    $('#recipe-modal').empty();
+    $('#recipe-modal').modal().text(message);
 }
 
 // Generate recipe object
@@ -93,16 +81,19 @@ function parseIngredients(ingredients) {
 function generateRecipeCards(recipesArray, appendLocation, isMax) {
     $.each(recipesArray, function(i, recipe) {
         let addToMeals;
+        let ingredientsList;
         if (!isMax) {
             addToMeals = $('<button>').attr('class', 'add-meal success button').attr('data-index', i).html('<i class="fas fa-plus-square"></i>Add');
+            ingredientsList = $('<ul>').attr('class', 'ingredient-list hidden');
         } else {
             addToMeals = $('<em>');
+            ingredientsList = $('<ul>').attr('class', 'ingredient-list');
         }
         
         const cardHeader = $('<h3>').text(recipe.label);
         const cardPhoto = $('<img>').attr('src', recipe.image).attr('alt', recipe.label);
         const yield = $('<p>').text('(Yields ' + recipe.yield + ' servings)');
-        const ingredientsList = $('<ul>').attr('class', 'ingredient-list hidden');
+        
         const fullLink = $('<a>').attr('href', recipe.url).attr('target', '_blank').html('See Instructions <i class="fas fa-external-link-alt"></i>');
     
         $.each(recipe.ingredients, function(i, ingredient) {
@@ -128,12 +119,11 @@ $('#search-results').on('click', '.recipe-card', function(event) {
 // Event listener to add meals to my meals
 $('#search-results').on('click', '.add-meal', function(event) {
     event.stopPropagation();
-    let index = $(this).attr('data-index');         //This shouldn't work with strings of number instead of number but... it... does?
+    let index = $(this).attr('data-index');
     addMeal(index);
 });
 
 // Event listener for delete buttons
-
 $('#my-meals').on('click', '.delBtn', function(event){
     event.stopPropagation();
     let index = $(this).attr('data-index');
@@ -143,11 +133,10 @@ $('#my-meals').on('click', '.delBtn', function(event){
     makeMyMeals();
 })
 
-// Event listener modal
+// Event listener for recipe modal from my meals
 $('#my-meals').on("click", '.selected-meals', function(event){
     event.stopPropagation();
-    $('#recipe-modal').empty();
-    $('#recipe-modal').modal();
+    popUp();
     let index =parseInt($(this).attr('data-index'));
     console.log(typeof(index));
     let allMeals = getMyMeals();
@@ -156,18 +145,26 @@ $('#my-meals').on("click", '.selected-meals', function(event){
     generateRecipeCards(singleMeal, $("#recipe-modal"), true);
 });
 
-
-// Event listener for the generate grocery list
-
+// Event listener to generate grocery list
 $('#grocery-list').on('click', function(event){
     event.stopPropagation();
     let myMeals = getMyMeals();
-    console.log(myMeals);
+    if (!myMeals || myMeals.length === 0) {
+        popUp('No recipes chosen. Add something tasty!');
+        return;
+    }
     makeGroceryList(myMeals);
 })
 
-// grabs my meals from local storage as an array of objects
+// Event listener for the copy button on the grocery list
+// $('#search-results').on('click', '#copy-btn', function(event){
+//     event.stopPropagation();
+//     document.getElementById('compiled-grocery-list').select();
+//     document.getElementById('compiled-grocery-list').setSelectionRange(0, 100000);
+//     $('#copy-btn').html('Copied! <i class="fas fa-clipboard-check"></i>')
+// })
 
+// Get my meals from local storage
 function getMyMeals(){
     let myMeals = JSON.parse(localStorage.getItem("myMeals"));
     if(!myMeals){
@@ -181,23 +178,23 @@ function addMeal(index) {
     let searchResults = JSON.parse(localStorage.getItem("searchResults"));
     let myMeals = getMyMeals();
     myMeals.push(searchResults[index]);
-    // generateRecipeCards(myMeals, $('#my-meals'));
     localStorage.setItem("myMeals", JSON.stringify(myMeals));
     makeMyMeals();
 };
-// generates the my meals list 
+
+// Generate the my meals list 
 function makeMyMeals(){
     $("#my-meals").html('');
     let myMeals = getMyMeals();
-    for(let i = 0; i<myMeals.length; i++){ //we left off at trying to set data index 
+    for(let i = 0; i<myMeals.length; i++){
         let newEntry = $('<div>');
         newEntry.attr('class', 'selected-meals').attr('data-index', i); 
         newEntry.html(`<button 
-                        class='button alert delBtn' 
-                        data-index='${i}'>
-                        <i class='fas fa-trash'></i>
-                        </button> 
-                        ${myMeals[i].label}`); 
+            class='button alert delBtn' 
+            data-index='${i}'>
+            <i class='fas fa-trash'></i>
+            </button> 
+            ${myMeals[i].label}`); 
         
         $('#my-meals').append(newEntry);
     }
@@ -205,6 +202,7 @@ function makeMyMeals(){
 
 // Combine ingredients from all selected meals into object object
 function makeGroceryList(recipeList) {
+    
     let groceryList= {};
 
     $.each(recipeList, function(i, recipe) {
@@ -226,18 +224,15 @@ function makeGroceryList(recipeList) {
 }
 
 function displayGroceryList(groceryList) {
-    console.log(groceryList);
     const listItems = Object.keys(groceryList);
-    console.log(listItems);
     $('#search-results').empty();
     $('#search-results').append($('<h2>').html(`Your Grocery List: 
-                                                <button class = "button custom-copy" id="upload">
-                                                Upload <i class="fas fa-cloud-upload-alt"></i>
-                                                </button>`).addClass('grocery-title'));
+        <button class = "button custom-copy" id="upload">
+            Upload <i class="fas fa-cloud-upload-alt"></i>
+        </button>`).addClass('grocery-title'));
     let compiledList = $('<ul>').attr('id', 'compiled-grocery-list');
     $('#search-results').append(compiledList);
     for(let i = 0; i<listItems.length; i++){
-        console.log(groceryList[listItems[i]])
         let measure = groceryList[listItems[i]].measure
         let calcQuantity = Math.ceil(groceryList[listItems[i]].quantity * (groceryList[listItems[i]].weight / groceryList[listItems[i]].weightConvert));
         if(isNaN(calcQuantity) || calcQuantity === 0){
@@ -250,15 +245,6 @@ function displayGroceryList(groceryList) {
         compiledList.append(groceryItem);
     }
 }
-
-// Generates modal
-// function addModal() {
-//     let newModal = $('<div>');
-//     newModal.addClass('modal');
-//     newModal.attr('id', 'recipe-modal') 
-//     newModal.html(`<h1>This is a test</h1>`);
-//     $('#my-meals').append(newModal);
-// }
 
 // Run on page load
 function init() {

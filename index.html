@@ -39,39 +39,22 @@
         </aside>
         <section class = "cell medium-8 large-9" id="search-results">
             Search for a food item or recipe!
-            <!-- <div data-index="1" class="recipe-card">                   <==== Can be deleted if we are done with major card styling
-                <button class="add-meal success button" data-index="1">
-                    <i class="fas fa-plus-square"></i>
-                    Add
-                </button>
-                <img src="https://www.edamam.com/web-img/e12/e12b8c5581226d7639168f41d126f2ff.jpg" alt="Chicken Paprikash">
-                <h3>Chicken Paprikash</h3>
-                <p>(4)</p>
-                <ul class="ingredient-list hidden">
-                    <li>640 grams chicken - drumsticks and thighs ( 3 whole chicken legs cut apart)</li>
-                    <li>1/2 teaspoon salt</li>
-                    <li>1/4 teaspoon black pepper</li>
-                    <li>1 tablespoon butter – cultured unsalted (or olive oil)</li>
-                    <li>240 grams onion sliced thin (1 large onion)</li>
-                    <li>70 grams Anaheim pepper chopped (1 large pepper)</li>
-                    <li>25 grams paprika (about 1/4 cup)</li>
-                    <li>1 cup chicken stock</li>
-                    <li>1/2 teaspoon salt</li><li>1/2 cup sour cream</li>
-                    <li>1 tablespoon flour – all-purpose</li>
-                </ul>
-                <a href="http://norecipes.com/recipe/chicken-paprikash/" target="_blank">See Instructions 
-                    <i class="fas fa-external-link-alt"></i>
-                </a>
-            </div> -->
-            <div id='recipe-modal' class="modal custom-modal">
-                <h2>Looks Yummy!</h2>
-                <a href="#" rel="modal:close">Close</a>
-            </div>
-            <p><a href="#recipe-modal" rel="modal:open"></a></p>
         </section>
     </main>
 
-
+    <div id='recipe-modal' class="modal custom-modal">
+        <h2>Looks Yummy!</h2>
+        <a href="#" rel="modal:close">Close</a>
+    </div>
+    <p><a href="#recipe-modal" rel="modal:open"></a></p>
+    <form action class="login_form modal" id="upload-prompt">
+        <h2>Enter user ID:</h2>
+        <input type="text" id="upload-input" />
+    </form>
+    <form action class="login_form modal" id="download-prompt">
+        <h2>Enter user ID:</h2>
+        <input type="text" id="download-input" />
+    </form>
 
     <!-- <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/js/foundation.min.js" integrity="sha256-pRF3zifJRA9jXGv++b06qwtSqX1byFQOLjqa2PTEb2o=" crossorigin="anonymous"></script>  -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -85,37 +68,57 @@
             projectId: "kitschy-3abde",
             storageBucket: "kitschy-3abde.appspot.com",
             messagingSenderId: "8659232932",
-        };
+        }
 
         firebase.initializeApp(config);
 
         var dataRef = firebase.database();
 
         $('#search-results').on('click', '#upload', function(event) {
+            event.preventDefault();
             event.stopPropagation();
-            const userId = prompt('Enter user ID:');
+            $('#upload-prompt').modal();
+        });
+
+        $('#upload-prompt').on('submit', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            const userId = $('#upload-input').val();
             const uploadList = JSON.parse(localStorage.getItem('groceryList'));
 
-            dataRef.ref('users/' + userId + '/groceryList').set(uploadList);
+            dataRef.ref('users/' + userId + '/groceryList').set(uploadList).catch((error) => {
+                popUp('Error: ' + error);
+                console.error(error);
+                }
+            ); 
         });
 
         $('#download').on('click', function(event) {
+            event.preventDefault();
             event.stopPropagation();
-            const userId = prompt('Enter user ID:');
-            
+            // const userId = prompt('Enter user ID:');
+            $('#download-prompt').modal();
+        });        
+
+        $('#download-prompt').on('submit', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            const userId = $('#download-input').val();
+
             dataRef.ref('users/' + userId + '/groceryList').once('value').then((snapshot) => {
                 if (snapshot.exists()) {
                     console.log(snapshot.val());
                     localStorage.setItem('groceryList', JSON.stringify(snapshot.val()));
                     displayGroceryList(snapshot.val());
                 } else {
+                    popUp('User grocery list not found! Try again.');
                     console.log("No data available");
                 }
             }).catch((error) => {
                 console.error(error);
                 }
             );
-        });        
+        })
     </script>
 
     <script type="text/javascript" src="assets/js/script.js"></script>
