@@ -83,7 +83,7 @@ function generateRecipeCards(recipesArray, appendLocation, isMax) {
         let addToMeals;
         let ingredientsList;
         if (!isMax) {
-            addToMeals = $('<button>').attr('class', 'add-meal success button').attr('data-index', i).html('<i class="fas fa-plus-square"></i>Add');
+            addToMeals = $('<button>').attr('class', 'add-meal button').attr('data-index', i).html('<i class="fas fa-plus-square"></i> Add');
             ingredientsList = $('<ul>').attr('class', 'ingredient-list hidden');
         } else {
             addToMeals = $('<em>');
