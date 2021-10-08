@@ -1,8 +1,11 @@
 # Kitschy App
-### Your kitchen helper!
-Kitschy is a one-stop recipe finder and grocery list generator for all your cooking needs. It allows for recipe searching
+### *Your kitchen helper!*
 
+Kitschy is a one-stop recipe finder and grocery list generator for all your cooking needs. It allows for recipe searching via [Edamam](https://developer.edamam.com/) API's recipe database. Once the desired recipes are added to "My Meals", a grocery list can be generated that will combine any common ingredients between the recipes into a single quantity.
 
+## Cloud Data
+
+Kitschy utilizes [Firebase](https://firebase.google.com/) cloud databasing to enable users to cloud save grocery lists for access by others in their households, whether accessing from desktop or mobile.
 
 
 ## Getting Started
