@@ -48,9 +48,9 @@ These instructions will get you a copy of the project up and running on your loc
 
 |**Emily Dorgan** | **Vince Lee** | **Tyler Yeager** |
 |-----------------|---------------|------------------|
-| - [Portfolio](https://emdorgan.github.io/portfolio/)| - [Portfolio](https://starryblue7.github.io/portfolio/)| - |
-| - [Github](https://github.com/emdorgan)| - [Github](https://github.com/StarryBlue7) | - |
-| - [LinkedIn](https://www.linkedin.com/in/emily-dorgan/)| - [LinkedIn](https://www.linkedin.com/in/vince-lee/) | - |
+| - [Portfolio](https://emdorgan.github.io/portfolio/)| - [Portfolio](https://starryblue7.github.io/portfolio/)| - [Portfolio](https://tylerbyeager.github.io/first-portfolio/) |
+| - [Github](https://github.com/emdorgan)| - [Github](https://github.com/StarryBlue7) | - [Github](https://github.com/TylerBYeager) |
+| - [LinkedIn](https://www.linkedin.com/in/emily-dorgan/)| - [LinkedIn](https://www.linkedin.com/in/vince-lee/) | - [LinkedIn](https://www.linkedin.com/in/tyler-yeager-1024/)|
 
 ## Acknowledgments
 
