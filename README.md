@@ -1,11 +1,17 @@
 # Kitschy App
 ### *Your kitchen helper!*
 
+![Recipe search](./assets/images/recipe-search-demo.gif)
+
 Kitschy is a one-stop recipe finder and grocery list generator for all your cooking needs. It allows for recipe searching via [Edamam](https://developer.edamam.com/) API's recipe database. Once the desired recipes are added to "My Meals", a grocery list can be generated that will combine any common ingredients between the recipes into a single quantity.
+
+![Grocery list generation](./assets/images/grocery-list-demo.gif)
+
 
 ## Cloud Data
 
 Kitschy utilizes [Firebase](https://firebase.google.com/) cloud databasing to enable users to cloud save grocery lists for access by others in their households, whether accessing from desktop or mobile.
+
 
 ## Code Snippets
 Here are a few code snippets and basic explanation of the functions they performed. The first snippet is that of our ajax api call. We used this in tandem with our user's input, searchTerm, to retrieve information for up to 20 different recipes matching the input. We then created an empty array which we pushed the results into for future use. 
@@ -163,3 +169,5 @@ These instructions will get you a copy of the project up and running on your loc
 * Modal plugin by Kyle Fox: [jQuery Modal](https://jquerymodal.com/).
 * Custom font from [Google Fonts](https://fonts.google.com/).
 * Icons provided by [FontAwesome](https://fontawesome.com/).
+
+![Kitschy logo](./assets/images/kitschy-logo.png)

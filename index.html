@@ -91,7 +91,9 @@
             const userId = $('#upload-input').val();
             const uploadList = JSON.parse(localStorage.getItem('groceryList'));
 
-            dataRef.ref('users/' + userId + '/groceryList').set(uploadList).catch((error) => {
+            dataRef.ref('users/' + userId + '/groceryList').set(uploadList).then(() => {
+                popUp('Successfully saved to cloud!');
+            }).catch((error) => {
                 popUp('Error: ' + error);
                 console.error(error);
                 }
