@@ -83,7 +83,7 @@ function generateRecipeCards(recipesArray, appendLocation, isMax) {
         let addToMeals;
         let ingredientsList;
         if (!isMax) {
-            addToMeals = $('<button>').attr('class', 'add-meal success button').attr('data-index', i).html('<i class="fas fa-plus-square"></i>Add');
+            addToMeals = $('<button>').attr('class', 'add-meal button').attr('data-index', i).html('<i class="fas fa-plus-square"></i> Add');
             ingredientsList = $('<ul>').attr('class', 'ingredient-list hidden');
         } else {
             addToMeals = $('<em>');
@@ -155,14 +155,6 @@ $('#grocery-list').on('click', function(event){
     }
     makeGroceryList(myMeals);
 })
-
-// Event listener for the copy button on the grocery list
-// $('#search-results').on('click', '#copy-btn', function(event){
-//     event.stopPropagation();
-//     document.getElementById('compiled-grocery-list').select();
-//     document.getElementById('compiled-grocery-list').setSelectionRange(0, 100000);
-//     $('#copy-btn').html('Copied! <i class="fas fa-clipboard-check"></i>')
-// })
 
 // Get my meals from local storage
 function getMyMeals(){
