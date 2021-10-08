@@ -83,6 +83,7 @@
         $('#upload-prompt').on('submit', function(event) {
             event.preventDefault();
             event.stopPropagation();
+            $.modal.close();
             const userId = $('#upload-input').val();
             const uploadList = JSON.parse(localStorage.getItem('groceryList'));
 
@@ -96,13 +97,13 @@
         $('#download').on('click', function(event) {
             event.preventDefault();
             event.stopPropagation();
-            // const userId = prompt('Enter user ID:');
             $('#download-prompt').modal();
         });        
 
         $('#download-prompt').on('submit', function(event) {
             event.preventDefault();
             event.stopPropagation();
+            $.modal.close();
             const userId = $('#download-input').val();
 
             dataRef.ref('users/' + userId + '/groceryList').once('value').then((snapshot) => {
