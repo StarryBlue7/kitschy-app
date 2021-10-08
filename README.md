@@ -31,3 +31,27 @@ These instructions will get you a copy of the project up and running on your loc
 
 * [See Live Site](https://starryblue7.github.io/kitschy-app/)
 
+## Built With
+
+* [Firebase](https://firebase.google.com/)
+* [jQuery](https://jquery.com/)
+* [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+* [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML)
+* [Foundation](https://get.foundation/)
+* [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
+* [GitHub](https://github.com/)
+
+## Authors
+
+|**Emily Dorgan** | **Vince Lee** | **Tyler Yeager** |
+|-----------------|---------------|------------------|
+| - [Portfolio](https://emdorgan.github.io/portfolio/)| - [Portfolio](https://starryblue7.github.io/portfolio/)| - |
+| - [Github](https://github.com/emdorgan)| - [Github](https://github.com/StarryBlue7) | - |
+| - [LinkedIn](https://www.linkedin.com/in/emily-dorgan/)| - [LinkedIn](https://www.linkedin.com/in/vince-lee/) | - |
+
+## Acknowledgments
+
+* Recipe search API from [Edamam](https://developer.edamam.com/).
+* Modal plugin by Kyle Fox: [jQuery Modal](https://jquerymodal.com/).
+* Custom font from [Google Fonts](https://fonts.google.com/).
+* Icons provided by [FontAwesome](https://fontawesome.com/).
