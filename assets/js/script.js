@@ -154,9 +154,6 @@ $('#my-meals').on("click", '.selected-meals', function(event){
     let singleMeal = allMeals.slice(index, index+1);
     console.log(singleMeal);
     generateRecipeCards(singleMeal, $("#recipe-modal"), true);
-    $('.ingredient-list').removeClass("hidden");
-    $('.recipe-card').addClass('.card-clicked');
-    $('.recipe-card').remove('.add-meal');
 });
 
 
