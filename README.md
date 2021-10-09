@@ -12,6 +12,10 @@ Kitschy is a one-stop recipe finder and grocery list generator for all your cook
 
 Kitschy utilizes [Firebase](https://firebase.google.com/) cloud databasing to enable users to cloud save grocery lists for access by others in their households, whether accessing from desktop or mobile.
 
+## Mobile-First UI
+This app's layout was designed with viewing on mobile devices in mind, utilizing viewport breakpoints and scaling to produce responsive experiences regardless of screen size.
+
+![Mobile page responsiveness](./assets/images/responsiveness-demo.gif)
 
 ## Code Snippets
 Here are a few code snippets and basic explanation of the functions they performed. The first snippet is that of our ajax api call. We used this in tandem with our user's input, searchTerm, to retrieve information for up to 20 different recipes matching the input. We then created an empty array which we pushed the results into for future use. 
